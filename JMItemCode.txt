@@ -1,0 +1,7 @@
+## Title: JMItemCode
+## APIVersion: 100011
+## Version: 0.1
+## Author: Jordy Moos
+## Description: Tries to make a unique code for an item
+
+JMItemCode.lua
