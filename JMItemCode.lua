@@ -32,59 +32,9 @@ local Converter = {}
 -- @param itemLink
 --
 function Converter:getCodeFromItemLink(itemLink)
---    local array = {ZO_LinkHandler_ParseLink(itemLink)}
---    array[6] = 0 -- Looted from
---    array[20] = 0 -- Crafted
---    array[22] = 0 -- Stolen
---    array[23] = 0 -- Condition
---
---    return table.concat(array, '_')
+    local pattern = "(|[^:]+:[^:]+:[^:]+:[^:]+:[^:]+):[^:]+:([^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+):[^:]+:([^:]+)(.*)"
 
-
----[[
-
-    local _, setName, setBonusCount, _ = GetItemLinkSetInfo(itemLink)
-    local glyphMinLevel, glyphMaxLevel, glyphMinVetLevel, glyphMaxVetLevel = GetItemLinkGlyphMinMaxLevels(itemLink)
-    local _, enchantHeader, _ = GetItemLinkEnchantInfo(itemLink)
-    local hasAbility, abilityHeader, _ = GetItemLinkOnUseAbilityInfo(itemLink)
-    local traitType, _ = GetItemLinkTraitInfo(itemLink)
-    local craftingSkillRank = GetItemLinkRequiredCraftingSkillRank(itemLink)
-
-    local abilityInfo = abilityHeader
-    if not hasAbility then
-        for i = 1, GetMaxTraits() do
-            local hasTraitAbility, traitAbilityDescription, _ = GetItemLinkTraitOnUseAbilityInfo(itemLink, i)
-            if(hasTraitAbility) then
-                abilityInfo = abilityInfo .. ':' .. traitAbilityDescription
-            end
-        end
-    end
-
-    return string.format(
-        '%s_%s_%s_%s_%s_' .. '%s_%s_%s_%s_%s_' .. '%s_%s_%s_%s_%s_' .. '%s_%s',
-
-        GetItemLinkQuality(itemLink),
-        GetItemLinkRequiredLevel(itemLink),
-        GetItemLinkRequiredVeteranRank(itemLink),
-        GetItemLinkWeaponPower(itemLink),
-        GetItemLinkArmorRating(itemLink),
-
-        GetItemLinkValue(itemLink),
-        GetItemLinkMaxEnchantCharges(itemLink),
-        setName,
-        glyphMinLevel or '',
-        glyphMaxLevel or '',
-
-        glyphMinVetLevel or '',
-        glyphMaxVetLevel or '',
-        enchantHeader,
-        traitType or '',
-        setBonusCount or '',
-
-        craftingSkillRank,
-        abilityInfo
-    )
----]]--
+    return itemLink:gsub(pattern, "%1:0:%2:0:%3:0:0|h|h", 10000):sub(1, -1)
 end
 
 --[[
