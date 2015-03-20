@@ -27,14 +27,20 @@ local Converter = {}
 ---
 -- Create a unique enough code from the itemLink
 -- Items are not unique enough, There is a big difference between a level 1 and level 50
--- So we add some more information to the code
+-- So we add some more information to the code (sometimes)
 --
 -- @param itemLink
 --
 function Converter:getCodeFromItemLink(itemLink)
-    local pattern = "(|[^:]+:[^:]+:[^:]+:[^:]+:[^:]+):[^:]+:([^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+):[^:]+:([^:]+)(.*)"
-
-    return itemLink:gsub(pattern, "%1:0:%2:0:%3:0:0|h|h", 10000):sub(1, -1)
+    local typeId = GetItemLinkItemType(itemLink)
+    local pattern = "|H%d:item:(%d+):(%d+):(%d+):.*"
+    local replacement = "%1"
+    
+    if typeId == 1 or typeId == 2 or typeId == 7 or typeId == 21 or typeId == 26 then
+        replacement = "%1/%2/%3"
+    end
+    
+    return itemLink:gsub(pattern, replacement, 10000):sub(1, -1)
 end
 
 --[[
