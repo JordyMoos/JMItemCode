@@ -33,11 +33,13 @@ local Converter = {}
 --
 function Converter:getCodeFromItemLink(itemLink)
     local typeId = GetItemLinkItemType(itemLink)
-    local pattern = "|H%d:item:(%d+):(%d+):(%d+):.*"
+    local pattern = "|H%d:item:(%d+):(%d+):(%d+):(%d+):.*:(%d+)|.+"
     local replacement = "%1"
     
-    if typeId == 1 or typeId == 2 or typeId == 7 or typeId == 21 or typeId == 26 then
-        replacement = "%1/%2/%3"
+    if typeId == 7 then
+        replacement = "%1/%2/%3/%5"
+    elseif typeId == 1 or typeId == 2 or typeId == 20 or typeId == 21 or typeId == 26 then
+        replacement = "%1/%2/%3/%4"
     end
     
     return itemLink:gsub(pattern, replacement, 10000):sub(1, -1)
