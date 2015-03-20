@@ -3,24 +3,12 @@
 --- JMItemCode
 ---
 
---[[
-
-    Variable declaration
-
- ]]
-
 ---
 -- @field name
 --
 local Config = {
     name = 'JMItemCode',
 }
-
---[[
-
-    Sale History
-
- ]]
 
 local Converter = {}
 
@@ -44,39 +32,6 @@ function Converter:getCodeFromItemLink(itemLink)
     
     return itemLink:gsub(pattern, replacement, 10000):sub(1, -1)
 end
-
---[[
-
-    Initialize
-
- ]]
-
----
--- Start of the addon
---
-local function Initialize()
-
-end
-
---[[
-
-    Events
-
- ]]
-
---- Adding the initialize handler
-EVENT_MANAGER:RegisterForEvent(
-    Config.name,
-    EVENT_ADD_ON_LOADED,
-    function (_, addonName)
-        if addonName ~= Config.name then
-            return
-        end
-
-        Initialize()
-        EVENT_MANAGER:UnregisterForEvent(Config.name, EVENT_ADD_ON_LOADED)
-    end
-)
 
 --[[
 
